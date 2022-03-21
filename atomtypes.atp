@@ -1,0 +1,14 @@
+; Brief: Byutner-Smith (Bonded) + OPLS-AA (Nonbonded) atom types
+; Source : Sahihi et al., J. Phys. Chem. C 2021 125 (39), 21635-21644, DOI: 10.1021/acs.jpcc.1c05894
+; Author: Somajit Dey <dey.somajit@gmail.com> https://orcid.org/0000-0002-6102-9777
+; References : 
+;   1) https://pubchem.ncbi.nlm.nih.gov/element/9
+;   2) https://manual.gromacs.org/documentation/2019/reference-manual/file-formats.html#atp
+;
+; atom_type   mass(u)
+pvdf_CH3    12.01100  ; Terminal Carbon attached to 3 Hydrogens
+pvdf_CH2    12.01100  ; Non-terminal Carbon attached to 2 Hydrogens
+pvdf_CF2    12.01100  ; Non-terminal Carbon attached to 2 Fluorines
+pvdf_CF3    12.01100  ; Terminal Carbon attached to 3 Fluorines
+pvdf_H       1.00800  ; Hydrogen
+pvdf_F      18.99840  ; Fluorine

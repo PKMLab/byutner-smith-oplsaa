@@ -1,0 +1,14 @@
+; Brief: Byutner-Smith (Bonded) + OPLS-AA (Nonbonded) name to type (needed for generating topology from .pdb using `gmx x2top`)
+; Source : Sahihi et al., J. Phys. Chem. C 2021 125 (39), 21635-21644, DOI: 10.1021/acs.jpcc.1c05894
+; Author: Somajit Dey <dey.somajit@gmail.com> https://orcid.org/0000-0002-6102-9777
+; References : 
+;   1) For atom_type definitions see "./atomtypes.atp"
+;   2) https://manual.gromacs.org/documentation/2019/reference-manual/file-formats.html#n2t
+;
+; symbol  atom_type  charge(e)  mass(u)  n_bonded  [symbol_of_bonded  bond_length(nm)]...
+C    pvdf_CH3    -0.62150    12.01100    4    H    0.1085    H    0.1085    H    0.1085    C    0.1534
+C    pvdf_CH2    -0.52020    12.01100    4    H    0.1085    H    0.1085    C    0.1534    C    0.1534
+C    pvdf_CF2     0.61200    12.01100    4    F    0.1357    F    0.1357    C    0.1534    C    0.1534
+C    pvdf_CF3     0.75920    12.01100    4    F    0.1357    F    0.1357    F    0.1357    C    0.1534
+H    pvdf_H       0.18070     1.00800    1    C    0.1085
+F    pvdf_F      -0.22660    18.99840    1    C    0.1357

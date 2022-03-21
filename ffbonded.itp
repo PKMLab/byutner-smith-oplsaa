@@ -1,0 +1,103 @@
+; Brief: Byutner-Smith (Bonded) + OPLS-AA (Nonbonded) FF parameters
+; Source : Sahihi et al., J. Phys. Chem. C 2021 125 (39), 21635-21644, DOI: 10.1021/acs.jpcc.1c05894
+; Author: Somajit Dey <dey.somajit@gmail.com> https://orcid.org/0000-0002-6102-9777
+; References : 
+;   1) For atom_type definitions see "./atomtypes.atp"
+;   2) https://manual.gromacs.org/documentation/current/reference-manual/topologies/parameter-files.html#bonded-parameters
+;   3) https://manual.gromacs.org/documentation/current/reference-manual/topologies/topology-file-formats.html#tab-topfile2
+;
+
+[ bondtypes ]
+; i         j     function    b_0(nm)    k_b(kJ/mol/nm2)
+pvdf_H      pvdf_CH3  1    0.1085    274,135.68
+pvdf_CH3    pvdf_CF2  1    0.1534    258,487.52
+pvdf_CF2    pvdf_CH2  1    0.1534    258,487.52
+pvdf_CH2    pvdf_CF3  1    0.1534    258,487.52
+pvdf_CF3    pvdf_F    1    0.1357    417,814.24
+pvdf_H      pvdf_CH2  1    0.1085    274,135.68
+pvdf_F      pvdf_CF2  1    0.1357    417,814.24
+pvdf_CF3    pvdf_CH3  1    0.1534    258,487.52 ; For the compound C2H3F3
+
+
+[ angletypes ]
+; i         j           k       function  theta_0(deg)    k_theta(kJ/mol/rad2)
+pvdf_H      pvdf_CH3    pvdf_H      1     109.270    322.1680
+pvdf_H      pvdf_CH3    pvdf_CF2    1     108.450    358.9872
+pvdf_CH3    pvdf_CF2    pvdf_CH2    1     118.240    671.9504
+pvdf_CF2    pvdf_CH2    pvdf_CF2    1     118.240    671.9504
+pvdf_CH2    pvdf_CF2    pvdf_CH2    1     118.240    671.9504
+pvdf_CF3    pvdf_CH2    pvdf_CF2    1     118.240    671.9504
+pvdf_F      pvdf_CF3    pvdf_CH2    1     107.740    753.1200
+pvdf_F      pvdf_CF3    pvdf_F      1     105.270   1004.1600
+pvdf_CF3    pvdf_CH2    pvdf_CF3    1     118.240    671.9504 ; For the compound C3H2F6
+pvdf_CH3    pvdf_CF2    pvdf_CH3    1     118.240    671.9504 ; For the compound C3H6F2
+
+[ dihedraltypes ]
+; Function = 9 below allows multiple potential functions to be applied to a single dihedral.
+; Ref : https://manual.gromacs.org/documentation/current/reference-manual/functions/bonded-interactions.html#proper-dihedrals-periodic-type
+; If Byutner-Smith dihedral contained terms upto cos(5phi) only then we could have used Ryckaert-Bellemans potential as well after expressing it in terms of cos(phi)
+;
+; i         j           k           l         function  phase(deg)    k_phi(kJ/mol)  multiplicity
+; F-C-C-C
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180          1.48532        1
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180          1.44348        2
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180         -1.58992        3
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180          0.58576        4
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180          0.60668        5
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180         -0.10460        6
+; F-C-C-C
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180          1.48532        1
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180          1.44348        2
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180         -1.58992        3
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180          0.58576        4
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180          0.60668        5
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180         -0.10460        6
+; F-C-C-C
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180          1.48532        1
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180          1.44348        2
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180         -1.58992        3
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180          0.58576        4
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180          0.60668        5
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180         -0.10460        6
+; F-C-C-C
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180          1.48532        1
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180          1.44348        2
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180         -1.58992        3
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180          0.58576        4
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180          0.60668        5
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180         -0.10460        6
+; C-C-C-C
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180          1.65268        1
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180          3.01248        2
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180         -1.58992        3
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180         -0.85772        4
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180          1.77820        5
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180         -0.10460        6
+; C-C-C-C
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          1.65268        1
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          3.01248        2
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -1.58992        3
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -0.85772        4
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          1.77820        5
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -0.10460        6
+; C-C-C-C
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180          1.65268        1
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180          3.01248        2
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180         -1.58992        3
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180         -0.85772        4
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180          1.77820        5
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180         -0.10460        6
+; C-C-C-C
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          1.65268        1
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          3.01248        2
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -1.58992        3
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -0.85772        4
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          1.77820        5
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -0.10460        6
+; C-C-C-C ; For the compound C4H5F5 :
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          1.65268        1
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          3.01248        2
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -1.58992        3
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -0.85772        4
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          1.77820        5
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -0.10460        6

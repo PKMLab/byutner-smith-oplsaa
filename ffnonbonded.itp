@@ -1,0 +1,19 @@
+; Brief: Byutner-Smith (Bonded) + OPLS-AA (Nonbonded) FF parameters
+; Source : Sahihi et al., J. Phys. Chem. C 2021 125 (39), 21635-21644, DOI: 10.1021/acs.jpcc.1c05894
+; Author: Somajit Dey <dey.somajit@gmail.com> https://orcid.org/0000-0002-6102-9777
+; References : 
+;   1) For atom_type definitions see "./atomtypes.atp"
+;   2) https://manual.gromacs.org/documentation/current/reference-manual/topologies/parameter-files.html#non-bonded-parameters
+;   3) https://manual.gromacs.org/documentation/current/reference-manual/topologies/topology-file-formats.html#tab-topfile2
+;   4) https://manual.gromacs.org/documentation/current/reference-manual/topologies/particle-type.html#particle-type
+;
+
+[ atomtypes ]
+; atom_type  Z      m(u)     q(e)  particle_type  sigma(nm)  epsilon(kJ/mol)
+pvdf_CH3    6    12.01100    -0.62150    A    0.350    0.276144
+pvdf_CH2    6    12.01100    -0.52020    A    0.350    0.276144
+pvdf_CF2    6    12.01100     0.61200    A    0.350    0.276144
+pvdf_CF3    6    12.01100     0.75920    A    0.350    0.276144
+pvdf_H      1     1.00800     0.18070    A    0.250    0.125520
+pvdf_F      9    18.99840    -0.22660    A    0.295    0.221752
+
