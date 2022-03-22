@@ -1,5 +1,8 @@
-; Brief: Byutner-Smith (Bonded) + OPLS-AA (Nonbonded) atom types
-; Source : Sahihi et al., J. Phys. Chem. C 2021 125 (39), 21635-21644, DOI: 10.1021/acs.jpcc.1c05894
+; Brief: This file defines the atom types.
+; Note: The same chemical element, depending on which elements it's bonded to, i.e. its environment, can have different atom types.
+; Source : 
+;   PVDF >> Sahihi et al., J. Phys. Chem. C 2021 125 (39), 21635-21644, DOI: 10.1021/acs.jpcc.1c05894
+;   CNT >> http://chembytes.wikidot.com/grocnt
 ; Author: Somajit Dey <dey.somajit@gmail.com> https://orcid.org/0000-0002-6102-9777
 ; References : 
 ;   1) https://pubchem.ncbi.nlm.nih.gov/element/9
@@ -12,3 +15,5 @@ pvdf_CF2    12.01100  ; Non-terminal Carbon attached to 2 Fluorines
 pvdf_CF3    12.01100  ; Terminal Carbon attached to 3 Fluorines
 pvdf_H       1.00800  ; Hydrogen
 pvdf_F      18.99840  ; Fluorine
+cnt_H        1.00800  ; Terminal hydrogen capping CNT
+cnt_C       12.01100  ; Carbon in CNT

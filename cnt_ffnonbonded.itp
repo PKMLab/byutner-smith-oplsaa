@@ -1,0 +1,8 @@
+; Oplsaa-based force field for carbon-based structures such as CNTs and graphenes
+; Author : Andrea Minoia <http://chembytes.wikidot.com/grocnt>
+
+[ atomtypes ]
+; The charges here will be overwritten by those in the rtp file
+; name    Z        mass      charge    ptype      sigma      eps
+  cnt_C   6     12.01100     0.000       A    3.55000e-01  2.92880e-01 ;opls_147 naftalene fusion C9
+  cnt_H   1      1.00800     0.000       A    2.42000e-01  1.25520e-01 ;opls_146 HA hydrogen benzene. I have set the charges zero

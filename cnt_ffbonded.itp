@@ -1,0 +1,18 @@
+; Oplsaa-based force field for carbon-based structures such as CNTs and graphenes
+; Author : Andrea Minoia <http://chembytes.wikidot.com/grocnt>
+
+[ bondtypes ]
+; i        j       func        b0          kb
+  cnt_C    cnt_C      1    0.14000   392459.2   ; TRP,TYR,PHE
+  cnt_C    cnt_H      1    0.10800   307105.6   ; PHE, etc.
+
+[ angletypes ]
+  cnt_C     cnt_C     cnt_C      1   120.000    527.184   ; PHE(OL)
+  cnt_C     cnt_C     cnt_H      1   120.000    292.880   ;
+  cnt_H     cnt_C     cnt_H      1   117.000    292.880   ; wlj from HC-CM-HC
+
+[ dihedraltypes ]
+  cnt_C     cnt_C     cnt_C     cnt_C      3     30.33400   0.00000 -30.33400   0.00000   0.00000   0.00000 ; aromatic ring
+  cnt_H     cnt_C     cnt_C     cnt_H      3     30.33400   0.00000 -30.33400   0.00000   0.00000   0.00000 ; aromatic ring
+  cnt_H     cnt_C     cnt_C     cnt_C      3     30.33400   0.00000 -30.33400   0.00000   0.00000   0.00000 ; aromatic ring
+  
