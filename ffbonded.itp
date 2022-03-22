@@ -23,14 +23,22 @@ pvdf_CF3    pvdf_CH3  1    0.1534    258,487.52 ; For the compound C2H3F3
 ; i         j           k       function  theta_0(deg)    k_theta(kJ/mol/rad2)
 pvdf_H      pvdf_CH3    pvdf_H      1     109.270    322.1680
 pvdf_H      pvdf_CH3    pvdf_CF2    1     108.450    358.9872
-pvdf_CH3    pvdf_CF2    pvdf_CH2    1     118.240    671.9504
-pvdf_CF2    pvdf_CH2    pvdf_CF2    1     118.240    671.9504
-pvdf_CH2    pvdf_CF2    pvdf_CH2    1     118.240    671.9504
-pvdf_CF3    pvdf_CH2    pvdf_CF2    1     118.240    671.9504
-pvdf_F      pvdf_CF3    pvdf_CH2    1     107.740    753.1200
+pvdf_H      pvdf_CH3    pvdf_CF3    1     108.450    358.9872
+pvdf_H      pvdf_CH2    pvdf_H      1     109.270    322.1680
+pvdf_H      pvdf_CH2    pvdf_CF2    1     108.450    358.9872
+pvdf_H      pvdf_CH2    pvdf_CF3    1     108.450    358.9872
 pvdf_F      pvdf_CF3    pvdf_F      1     105.270   1004.1600
+pvdf_F      pvdf_CF3    pvdf_CH2    1     107.740    753.1200
+pvdf_F      pvdf_CF3    pvdf_CH3    1     107.740    753.1200
+pvdf_F      pvdf_CF2    pvdf_F      1     105.270   1004.1600
+pvdf_F      pvdf_CF2    pvdf_CH2    1     107.740    753.1200
+pvdf_F      pvdf_CF2    pvdf_CH3    1     107.740    753.1200
+pvdf_CH3    pvdf_CF2    pvdf_CH2    1     118.240    671.9504
+pvdf_CH3    pvdf_CF2    pvdf_CH3    1     118.240    671.9504
+pvdf_CF3    pvdf_CH2    pvdf_CF2    1     118.240    671.9504
 pvdf_CF3    pvdf_CH2    pvdf_CF3    1     118.240    671.9504 ; For the compound C3H2F6
-pvdf_CH3    pvdf_CF2    pvdf_CH3    1     118.240    671.9504 ; For the compound C3H6F2
+pvdf_CH2    pvdf_CF2    pvdf_CH2    1     118.240    671.9504
+pvdf_CF2    pvdf_CH2    pvdf_CF2    1     118.240    671.9504
 
 [ dihedraltypes ]
 ; Function = 9 below allows multiple potential functions to be applied to a single dihedral.
@@ -38,66 +46,61 @@ pvdf_CH3    pvdf_CF2    pvdf_CH3    1     118.240    671.9504 ; For the compound
 ; If Byutner-Smith dihedral contained terms upto cos(5phi) only then we could have used Ryckaert-Bellemans potential as well after expressing it in terms of cos(phi)
 ;
 ; i         j           k           l         function  phase(deg)    k_phi(kJ/mol)  multiplicity
+; F-CTF-C-C (TF stands for terminal Carbon attached to Fluorine)
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180.00          1.48532        1
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180.00          1.44348        2
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180.00         -1.58992        3
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180.00          0.58576        4
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180.00          0.60668        5
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180.00         -0.10460        6
+; F-CTF-C-CTF
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180.00          1.48532        1
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180.00          1.44348        2
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180.00         -1.58992        3
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180.00          0.58576        4
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180.00          0.60668        5
+pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180.00         -0.10460        6
 ; F-C-C-C
-pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180          1.48532        1
-pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180          1.44348        2
-pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180         -1.58992        3
-pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180          0.58576        4
-pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180          0.60668        5
-pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF2     9        180         -0.10460        6
-; F-C-C-C
-pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180          1.48532        1
-pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180          1.44348        2
-pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180         -1.58992        3
-pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180          0.58576        4
-pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180          0.60668        5
-pvdf_F      pvdf_CF3    pvdf_CH2    pvdf_CF3     9        180         -0.10460        6
-; F-C-C-C
-pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180          1.48532        1
-pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180          1.44348        2
-pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180         -1.58992        3
-pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180          0.58576        4
-pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180          0.60668        5
-pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180         -0.10460        6
-; F-C-C-C
-pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180          1.48532        1
-pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180          1.44348        2
-pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180         -1.58992        3
-pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180          0.58576        4
-pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180          0.60668        5
-pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180         -0.10460        6
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180.00          1.48532        1
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180.00          1.44348        2
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180.00         -1.58992        3
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180.00          0.58576        4
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180.00          0.60668        5
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF2     9        180.00         -0.10460        6
+; F-C-C-CTF
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180.00          1.48532        1
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180.00          1.44348        2
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180.00         -1.58992        3
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180.00          0.58576        4
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180.00          0.60668        5
+pvdf_F      pvdf_CF2    pvdf_CH2    pvdf_CF3     9        180.00         -0.10460        6
+; CTF-C-C-C
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180.00          1.65268        1
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180.00          3.01248        2
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180.00         -1.58992        3
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180.00         -0.85772        4
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180.00          1.77820        5
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180.00         -0.10460        6
+; CTF-C-C-CTH (TH stands for terminal Carbon attached to Hydrogen)
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180.00          1.65268        1
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180.00          3.01248        2
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180.00         -1.58992        3
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180.00         -0.85772        4
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180.00          1.77820        5
+pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180.00         -0.10460        6
 ; C-C-C-C
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180          1.65268        1
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180          3.01248        2
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180         -1.58992        3
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180         -0.85772        4
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180          1.77820        5
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180         -0.10460        6
-; C-C-C-C
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          1.65268        1
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          3.01248        2
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -1.58992        3
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -0.85772        4
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          1.77820        5
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -0.10460        6
-; C-C-C-C
-pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180          1.65268        1
-pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180          3.01248        2
-pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180         -1.58992        3
-pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180         -0.85772        4
-pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180          1.77820        5
-pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180         -0.10460        6
-; C-C-C-C
-pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          1.65268        1
-pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          3.01248        2
-pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -1.58992        3
-pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -0.85772        4
-pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          1.77820        5
-pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -0.10460        6
-; C-C-C-C ; For the compound C4H5F5 :
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          1.65268        1
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          3.01248        2
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -1.58992        3
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -0.85772        4
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180          1.77820        5
-pvdf_CF3    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180         -0.10460        6
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180.00          1.65268        1
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180.00          3.01248        2
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180.00         -1.58992        3
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180.00         -0.85772        4
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180.00          1.77820        5
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH2     9        180.00         -0.10460        6
+; C-C-C-CTH
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180.00          1.65268        1
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180.00          3.01248        2
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180.00         -1.58992        3
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180.00         -0.85772        4
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180.00          1.77820        5
+pvdf_CF2    pvdf_CH2    pvdf_CF2    pvdf_CH3     9        180.00         -0.10460        6
+; Others default to 0 ; X means wildcard (See https://manual.gromacs.org/documentation/2019/reference-manual/topologies/parameter-files.html#bonded-parameters)
+pvdf_H      X           X           X            1          0.00             0.00        0
