@@ -9,14 +9,14 @@
 
 [ bondtypes ]
 ; i         j     function    b_0(nm)    k_b(kJ/mol/nm2)
-pvdf_H      pvdf_CH3  1    0.1085    274,135.68
-pvdf_CH3    pvdf_CF2  1    0.1534    258,487.52
-pvdf_CF2    pvdf_CH2  1    0.1534    258,487.52
-pvdf_CH2    pvdf_CF3  1    0.1534    258,487.52
-pvdf_CF3    pvdf_F    1    0.1357    417,814.24
-pvdf_H      pvdf_CH2  1    0.1085    274,135.68
-pvdf_F      pvdf_CF2  1    0.1357    417,814.24
-pvdf_CF3    pvdf_CH3  1    0.1534    258,487.52 ; For the compound C2H3F3
+pvdf_H      pvdf_CH3  1    0.1085    274135.68
+pvdf_CH3    pvdf_CF2  1    0.1534    258487.52
+pvdf_CF2    pvdf_CH2  1    0.1534    258487.52
+pvdf_CH2    pvdf_CF3  1    0.1534    258487.52
+pvdf_CF3    pvdf_F    1    0.1357    417814.24
+pvdf_H      pvdf_CH2  1    0.1085    274135.68
+pvdf_F      pvdf_CF2  1    0.1357    417814.24
+pvdf_CF3    pvdf_CH3  1    0.1534    258487.52 ; For the compound C2H3F3
 
 
 [ angletypes ]
