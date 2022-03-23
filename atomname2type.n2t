@@ -12,9 +12,9 @@ C    pvdf_CF3     0.75920    12.01100    4    F    0.1357    F    0.1357    F   
 H    pvdf_H       0.18070     1.00800    1    C    0.1085
 F    pvdf_F      -0.22660    18.99840    1    C    0.1357
 ;
-H    cnt_H        0.00        1.00800    1    C    0.1090                                     ;Hydrogen
-C    cnt_C        0.00       12.01100    3    C    0.1420    H    0.1090    H    0.1090       ;Periferic C
-C    cnt_C        0.00       12.01100    3    C    0.1420    C    0.1420    H    0.1080       ;Periferic C
-C    cnt_C        0.00       12.01100    1    C    0.1420                                     ;Internal/periodic C
-C    cnt_C        0.00       12.01100    2    C    0.1420    C    0.1420                      ;Internal/periodic C
-C    cnt_C        0.00       12.01100    3    C    0.1420    C    0.1420    C    0.1420       ;Internal/periodic C
+HJ    cnt_H        0.00        1.00800    1    CJ    0.1090                                     ;Hydrogen
+CJ    cnt_C        0.00       12.01100    3    CJ    0.1420    HJ    0.1090    HJ    0.1090       ;Periferic C
+CJ    cnt_C        0.00       12.01100    3    CJ    0.1420    CJ    0.1420    HJ    0.1080       ;Periferic C
+CJ    cnt_C        0.00       12.01100    1    CJ    0.1420                                     ;Internal/periodic C
+CJ    cnt_C        0.00       12.01100    2    CJ    0.1420    CJ    0.1420                      ;Internal/periodic C
+CJ    cnt_C        0.00       12.01100    3    CJ    0.1420    CJ    0.1420    CJ    0.1420       ;Internal/periodic C
