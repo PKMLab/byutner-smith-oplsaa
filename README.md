@@ -10,5 +10,5 @@ Before applying `gmx x2top` on CNT configs (.pdb or .gro), change the atomtypes 
 Also, after generating the topology file with `x2top`, change the function type in the `[dihedrals]` section to `9` for PVDF and `3` for CNT.  
   
 # Utilities  
-The shell (bash) scripts. You will find what they do and how to use them within them - as comments.  
+The [scripts](./scripts). You will find what they do and how to use them within them - as comments.  
 

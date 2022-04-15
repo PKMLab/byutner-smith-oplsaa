@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # Ref: Zhu et al. 2008, Comput. Mat. Sci. 44, 224-229
-# Usage: ./build_beta_pvdf_crystal.bash <path to .gro file of single chain/molecule> [<distance between solute and box>=0.491/2(nm)]
+# Usage: crysgen <path to .gro file of PROPERLY ALIGNED single chain/molecule> [<distance between solute and box> = 0.491/2(nm)(default)]
 set -e
+read -p "Is your molecule properly aligned? Dipoles along Y and long axis along Z? (Hint: Use output of polygen)"
 mol_gro="${1}" # .gro file of molecule (beta pvdf)
 gap="${2:-0.2455}"
 tmpfile="$(mktemp -u).gro"
-gmx editconf -princ -rotate 0 90 0 -o "${tmpfile}" -f "${mol_gro}" -c # Align principal axes of a single molecule - long axis along z and C-F-F bisector along Y
-gmx genconf -norot -nbox 5 5 1 -dist 0.850 0.491 0 -f "${tmpfile}" -o assemble_1.gro # Build first rectangular grid from single molecules
+#gmx editconf -princ -rotate 0 90 0 -o "${tmpfile}" -f "${mol_gro}" -c <<< '2' # Align principal axes of a single molecule - long axis along z and C-F-F bisector along Y
+gmx genconf -norot -nbox 5 5 1 -dist 0.850 0.491 0 -f "${mol_gro}" -o assemble_1.gro # Build first rectangular grid from single molecules
 gmx editconf -translate 0.425 0.2455 0 -f assemble_1.gro -o assemble_2.gro # Shift the first grid in the X-Y plane to get the second grid
 # Superimpose both grids to get the quasi hexagonal lattice
 natoms="$(sed -n 2p assemble_1.gro)"
