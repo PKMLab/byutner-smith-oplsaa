@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Generates PVDF beta polymer (CH2CF2)n of any given length (n).
-# Open the output (.gro format) in Avogadro and add F or H at the termini if you don't want dangling bonds. 
+# Open the output (.gro format) in Avogadro and add F or H at the termini if you don't want dangling bonds.
+## If you do add terminal H and F make sure you adjust the bondlengths (put values of other C-H and C-F bonds)
+## in the CH3 and CF3 groups: `View` > `Properties` > `Bond properties`
 # Syntax: polygen <number of monomers> > <outfile.gro>
 # Gives .gro format config on stdout and other info at stderr
 
