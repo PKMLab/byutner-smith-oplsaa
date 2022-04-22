@@ -1,22 +1,46 @@
 #!/usr/bin/env bash
+# Brief: Generates a beta-pvdf crystal from a given periodic n-mer (maybe energy minimized output of polygen).
+## User input required: A properly aligned single periodic n-mer, na (number of molecules along a), nb, nc and b(nm)(unit cell dimension along dipole). 
 # Ref: Zhu et al. 2008, Comput. Mat. Sci. 44, 224-229
-# Usage: crysgen <path to .gro file of PROPERLY ALIGNED single chain/molecule> [<distance between solute and box> = 0.491/2(nm)(default)]
-set -e
-read -p "Is your molecule properly aligned? Dipoles along Y and long axis along Z? (Hint: Use output of polygen)"
-mol_gro="${1}" # .gro file of molecule (beta pvdf)
-gap="${2:-0.2455}"
-tmpfile="$(mktemp -u).gro"
-#gmx editconf -princ -rotate 0 90 0 -o "${tmpfile}" -f "${mol_gro}" -c <<< '2' # Align principal axes of a single molecule - long axis along z and C-F-F bisector along Y
-gmx genconf -norot -nbox 5 5 1 -dist 0.850 0.491 0 -f "${mol_gro}" -o assemble_1.gro # Build first rectangular grid from single molecules
-gmx editconf -translate 0.425 0.2455 0 -f assemble_1.gro -o assemble_2.gro # Shift the first grid in the X-Y plane to get the second grid
-# Superimpose both grids to get the quasi hexagonal lattice
-natoms="$(sed -n 2p assemble_1.gro)"
-natoms="$((natoms*2))"
-echo -e PVDF\\n$natoms > assembly.gro
-head -n -1 assemble_1.gro | tail -n +3 >> assembly.gro
-head -n -1 assemble_2.gro | tail -n +3 >> assembly.gro
-echo 0.0 0.0 0.0 >> assembly.gro # Dummy box size to make the file legit .gro
-# Setup Box dimensions
-gmx editconf -f assembly.gro -o crystal.gro -bt triclinic -angles 90.0 90.0 90.0 -d "${gap}" -resnr 1 # Note the -resnr option to renumber the residues
-rm "${tmpfile}" assemble_1.gro assemble_2.gro assembly.gro # Cleanup
+# Usage: crysgen <path/to/.gro> <nx> <ny> <nz> [<b>]  # b default 0.491nm
 
+set -e
+tmpdir="$(mktemp -u)"; mkdir "${tmpdir}"
+
+# Warn user
+read -p "Reminder: Is your molecule properly aligned? Dipoles along Y and long axis along Z? (Hint: Use output of polygen)"
+
+# Inputs
+mol_gro="${1}" # .gro file of single n-mer beta pvdf
+[[ -n "${mol_gro}" ]] && [[ -f "${mol_gro}" ]] || { echo "Provide .gro of single properly aligned n-mer"; exit 1;}
+res_per_mol="$(($(sed -n 2p "${mol_gro}")/6))" # Number of residues per molecule from <#atoms_per_molecule>/<#atoms_per_residue>
+na="${2}"; nb="${3}"; nc="${4}" # Number of molecules along a, b and c directions. Total number 2 x na x nb x nc (Twice because one + one staggered along a,b)
+( [[ "${2}" ]] && [[ "${3}" ]] && [[ "${4}" ]] ) || { echo "Provide number of mols along a,b,c"; exit 1;}
+b="${5:-0.491}" # b in nm. Give all the precision you've got. Default : 0.491nm.
+
+# Parameters:
+declare -r a=0.850 c=0.256
+declare -r a_half="$(echo "${a}/2" | bc -l)" b_half="$(echo "${b}/2" | bc -l)" # Might also use "$(echo "scale=5;${b}/2" | bc)"
+declare -r box_a="$(echo "${na}*${a}" | bc)" box_b="$(echo "${nb}*${b}" | bc)"
+declare -r box_c="$(echo "${nc}*${res_per_mol}*${c}" | bc)"
+
+# Build original grid from single molecules
+sed '$c0.0 0.0 0.0' "${mol_gro}" > "${tmpdir}"/nobox_single_mol.gro
+gmx genconf -norot -nbox "${na}" "${nb}" "${nc}" -dist "${a}" "${b}" "${c}" -f "${tmpdir}"/nobox_single_mol.gro -o "${tmpdir}"/orig_grid.gro
+
+# Shift the original grid in the X-Y or a-b plane to get the staggered grid
+gmx editconf -translate "${a_half}" "${b_half}" 0 -f "${tmpdir}"/orig_grid.gro -o "${tmpdir}"/staggered_grid.gro 
+
+# Superimpose both grids to get the quasi hexagonal lattice
+natoms_orig="$(sed -n 2p "${tmpdir}"/orig_grid.gro)"
+natoms="$((natoms_orig*2))"
+echo -e "PVDF\n${natoms}" > "${tmpdir}"/super_grid.gro
+head -n -1 "${tmpdir}"/orig_grid.gro | tail -n +3 >> "${tmpdir}"/super_grid.gro
+head -n -1 "${tmpdir}"/staggered_grid.gro | tail -n +3 >> "${tmpdir}"/super_grid.gro
+echo "${box_a} ${box_b} ${box_c}" >> "${tmpdir}"/super_grid.gro # Perfect box size to make the crystal
+# Centre the whole system within box
+gmx editconf -f "${tmpdir}"/super_grid.gro -o crystal.gro -bt triclinic -angles 90.0 90.0 90.0 -box "${box_a}" "${box_b}" "${box_c}" -resnr 1
+# Note the -resnr option above, to renumber the residues
+
+# Cleanup
+rm -rf "${tmpdir}"
