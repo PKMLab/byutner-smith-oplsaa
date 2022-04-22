@@ -1,6 +1,8 @@
 <!-- Preview available at https://markdownlivepreview.com/ -->
-
-# How to generate the topology
+  
+# Beta PVDF
+  
+## How to generate the topology
 - Prepare (CH2CF2)n polymer with n=22(for example), using `polygen 22 > pvdf_beta_22.gro`
 - Open `pvdf_beta_22.gro` using Avogadro
 - Add terminal H and F - (CH3 and CF3 groups)
@@ -8,9 +10,11 @@
 - Save and quit Avogadro
 - Open `pvdf_beta_22.gro` and edit : put the last F in the 22VDF residue and the last 3 Hs into 1VDF instead of 1UNL
 - Generate top: `gmx x2top -ff pvdf-cnt -nopbc -noparam -name pvdf_beta_22 -o topol.top -f pvdf_beta_22.gro`
+- In the `[dihedrals]` section change function 1 to 9. Use may be made of `sed -i~ '/\[ dihedrals \]/,/\[ system \]/s/  1 /  9 /g' topol.top`
+for this. But be careful as the sed command can change atom number 1 to 9 as well.
 - Generate .itp from `topol.top` if needed
   
-# How to generate periodic molecules
+## How to generate periodic molecules
 - https://gromacs.bioexcel.eu/t/periodic-molecules-infinite-graphene-layer/2021
 - https://gromacs.bioexcel.eu/t/infinite-dna-across-boundary-conditions/1628
 - https://gromacs.org-gmx-users.maillist.sys.kth.narkive.com/H75XEpG8/gmx-users-polymer-in-periodic-boundary-conditions
@@ -27,3 +31,13 @@ Delete residue 1 and 22, edit the total number of atoms to be 6x20=120, then run
 renumber the atoms. Note that we don't renumber the residues (no `-resnr` option used). This is because the topology file 
 still doesn't have the residues renumbered.
 - DONOT forget to add `periodic-molecules = yes` in the .mdp file. Otherwise there would be errors while domain decomposition.
+  
+## How to generate crystal structure
+- `crysgen <path/to/.gro> <nx> <ny> <nz> [<b>]`. b is the unit cell dimension along y (dipole direction) default 0.491nm
+- The gro file passed to `crysgen` must be that of a periodic n-mer properly aligned (long axis along z and dipole along y)
+- `crysgen` renumbers the residues. Accordingly the topology file needs to be renumbered manually.
+  
+## Single point energy calculation GROMACS
+- http://www.gromacs.org/Documentation_of_outdated_versions/How-tos/Single-Point_Energy
+- `mdrun -s input.tpr -rerun configuration.pdb`; Note that the configuration supplied must match the topology you used when
+ generating the .tpr file with `grompp`. The configuration you supplied to grompp is irrelevant, except perhaps for atom names.
