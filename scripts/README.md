@@ -35,7 +35,9 @@ still doesn't have the residues renumbered.
 ## How to generate crystal structure
 - `crysgen <path/to/.gro> <nx> <ny> <nz> [<b>]`. b is the unit cell dimension along y (dipole direction) default 0.491nm
 - The gro file passed to `crysgen` must be that of a periodic n-mer properly aligned (long axis along z and dipole along y)
-- `crysgen` renumbers the residues. Accordingly the topology file needs to be renumbered manually.
+- `crysgen` renumbers the residues. Accordingly the topology file needs to be renumbered manually. To renumber the residues 
+in the topology file (say, `topol.top`) : `awk '/\[ atoms \]/,/\[ bonds \]/{$3-=1}1' topol.top`. Note that this command also 
+edits the lines containing `[atoms]` and `[bonds]` which you will have to correct for.
   
 ## Single point energy calculation GROMACS
 - http://www.gromacs.org/Documentation_of_outdated_versions/How-tos/Single-Point_Energy
