@@ -8,14 +8,14 @@ set -e
 tmpdir="$(mktemp -u)"; mkdir "${tmpdir}"
 
 # Warn user
-read -p "Reminder: Is your molecule properly aligned? Dipoles along Y and long axis along Z? (Hint: Use output of polygen)"
+echo "Reminder: Is your molecule properly aligned? Dipoles along Y and long axis along Z? (Hint: Use output of polygen)" >&2
 
 # Inputs
 mol_gro="${1}" # .gro file of single n-mer beta pvdf
 [[ -n "${mol_gro}" ]] && [[ -f "${mol_gro}" ]] || { echo "Provide .gro of single properly aligned n-mer"; exit 1;}
 res_per_mol="$(($(sed -n 2p "${mol_gro}")/6))" # Number of residues per molecule from <#atoms_per_molecule>/<#atoms_per_residue>
 na="${2}"; nb="${3}"; nc="${4}" # Number of molecules along a, b and c directions. Total number 2 x na x nb x nc (Twice because one + one staggered along a,b)
-( [[ "${2}" ]] && [[ "${3}" ]] && [[ "${4}" ]] ) || { echo "Provide number of mols along a,b,c"; exit 1;}
+( [[ "${na}" ]] && [[ "${nb}" ]] && [[ "${nc}" ]] ) || { echo "Provide number of mols along a,b,c"; exit 1;}
 b="${5:-0.491}" # b in nm. Give all the precision you've got. Default : 0.491nm.
 
 # Parameters:

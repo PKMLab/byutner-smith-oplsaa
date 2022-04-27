@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# Brief: Generates data for energy v/s b plots under different electrostatic conditions
+# Step 1: Generates crystal with default b (using crysgen)
+# Step 2: Generates .tpr using given mdp, top and the generated crystal.gro (using gmx_grompp)
+# Step 3: Generates crystals for different values of b and using the .tpr measure their respective energies (using gmx_mdrun)
+# Note: The configuration (e.g. value of b or box dimension) supplied to grompp in Step 2 is irrelevant, except perhaps for atom names, for Step 3.
+# Syntax: energy_vs_b_datagen <path/to/mdp> </path/to/top> </path/to/n-mer.gro> <nx> <ny> <nz>
+
+set -e
+export tmpdir="$(mktemp -u)"; mkdir "${tmpdir}"
+
+# Download and install crysgen if not available
+export PATH="${PATH}":"${PWD}/.bin"
+which crysgen >&2 || {
+  mkdir -p .bin
+  curl -Lo .bin/crysgen https://raw.githubusercontent.com/PKMLab/pvdf-cnt.ff/main/scripts/crysgen
+  chmod +x .bin/crysgen
+  } >&2
+
+# Check inputs
+export mdp="${1}" top="${2}" mol_gro="${3}"
+[[ "${mdp}" == *.mdp ]] && [[ -f "${mdp}" ]] || { echo "Provide mdp as 1st argument"; exit 1;}
+[[ "${top}" == *.top ]] && [[ -f "${top}" ]] || { echo "Provide crystal top as 2nd argument"; exit 1;}
+[[ "${mol_gro}" == *.gro ]] && [[ -f "${mol_gro}" ]] || { echo "Provide .gro of single properly aligned n-mer as 3rd argument"; exit 1;}
+export na="${4}" nb="${5}" nc="${6}" # Number of molecules along a, b and c directions. Total number 2 x na x nb x nc (Twice because one + one staggered along a,b)
+( [[ "${na}" ]] && [[ "${nb}" ]] && [[ "${nc}" ]] ) || { echo "Provide number of mols along a,b,c"; exit 1;}
+
+# Function to generate crystal within tmpdir for any given b
+f_crysgen(){
+  # Brief: Generates crystal.gro withing tmpdir corresponding to given b if any
+  # f_crysgen [<b>]
+  crysgen "${mol_gro}" "${na}" "${nb}" "${nc}" "${1}"
+  mv crystal.gro "${tmpdir}"/
+} >&2; export -f f_crysgen
+
+# Generate default crystal (b=0.491nm)
+f_crysgen
+
+# Generate .tpr
+gmx grompp -o "${tmpdir}/crystal.tpr" -f "${mdp}" -p "${top}" -c "${tmpdir}/crystal.gro" >&2
+
+# Define data generating function
+f_datgen(){
+  # Brief: Generates crystal and extract energy (kJ/mol) of that
+  # f_datgen <b>
+  local b="${1}"
+  f_crysgen "${b}"
+  gmx mdrun -s "${tmpdir}/crystal.tpr" -rerun "${tmpdir}/crystal.gro" -deffnm "${tmpdir}/crystal" >&2
+  gmx energy -f "${tmpdir}/crystal.edr" -o "${tmpdir}/crystal.xvg" <<<"9 0" >&2
+  echo -n "${b} "
+  tail -n1 "${tmpdir}/crystal.xvg" | awk '{print $2}'
+}; export -f f_datgen
+
+# Generate energy for different b
+for i in $(seq -60 0); do
+  b="$(echo "0.491+${i}*0.001" | bc)"
+  f_datgen "${b}"
+done
