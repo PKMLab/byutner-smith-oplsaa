@@ -4,7 +4,7 @@
 # Step 2: Generates .tpr using given mdp, top and the generated crystal.gro (using gmx_grompp)
 # Step 3: Generates crystals for different values of b and using the .tpr measure their respective energies (using gmx_mdrun)
 # Note: The configuration (e.g. value of b or box dimension) supplied to grompp in Step 2 is irrelevant, except perhaps for atom names, for Step 3.
-# Syntax: energy_vs_b_datagen <path/to/mdp> </path/to/top> </path/to/n-mer.gro> <nx> <ny> <nz>
+# Syntax: energy_vs_b_datagen <path/to/mdp> </path/to/top> </path/to/n-mer.gro> <nx> <ny> <nz> <Voltage across b axis>
 
 set -e
 export tmpdir="$(mktemp -u)"; mkdir "${tmpdir}"
@@ -24,6 +24,8 @@ export mdp="${1}" top="${2}" mol_gro="${3}"
 [[ "${mol_gro}" == *.gro ]] && [[ -f "${mol_gro}" ]] || { echo "Provide .gro of single properly aligned n-mer as 3rd argument"; exit 1;}
 export na="${4}" nb="${5}" nc="${6}" # Number of molecules along a, b and c directions. Total number 2 x na x nb x nc (Twice because one + one staggered along a,b)
 ( [[ "${na}" ]] && [[ "${nb}" ]] && [[ "${nc}" ]] ) || { echo "Provide number of mols along a,b,c"; exit 1;}
+export volt="${7:-0.0}"
+[[ "${volt}" ]] || { echo "Provide voltage across b axis"; exit 1;}
 
 # Function to generate crystal within tmpdir for any given b
 f_crysgen(){
@@ -36,15 +38,18 @@ f_crysgen(){
 # Generate default crystal (b=0.491nm)
 f_crysgen
 
-# Generate .tpr
-gmx grompp -o "${tmpdir}/crystal.tpr" -f "${mdp}" -p "${top}" -c "${tmpdir}/crystal.gro" >&2
-
 # Define data generating function
 f_datgen(){
   # Brief: Generates crystal and extract energy (kJ/mol) of that
   # f_datgen <b>
   local b="${1}"
   f_crysgen "${b}"
+  local box_b="$(tail -n1 "${tmpdir}/crystal.gro" | awk '{print $2}')" # box size along b
+  local electric_field_y="$(echo "${volt}/${box_b}" | bc -l)"
+  sed -i "/^electric-field-y/celectric-field-y = ${electric_field_y} 0 0 0" "${mdp}"
+  # Generate .tpr
+  gmx grompp -o "${tmpdir}/crystal.tpr" -f "${mdp}" -p "${top}" -c "${tmpdir}/crystal.gro" >&2
+  # Get the energy
   gmx mdrun -s "${tmpdir}/crystal.tpr" -rerun "${tmpdir}/crystal.gro" -deffnm "${tmpdir}/crystal" >&2
   gmx energy -f "${tmpdir}/crystal.edr" -o "${tmpdir}/crystal.xvg" <<<"9 0" >&2
   echo -n "${b} "
